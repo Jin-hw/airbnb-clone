@@ -11,4 +11,4 @@ class TimeStampedModel(models.Model):
     updated = models.DateTimeField(auto_now=True)  # auto_now 는 새로운 날짜로 업데이트 해주는 방식
 
     class Meta:
-        abstract = True
+        abstract = True  # abctract model은 Database 상에 나타나지 않음, 확장하기 위해서 사용

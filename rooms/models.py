@@ -80,9 +80,11 @@ class Room(core_models.TimeStampedModel):
     host = models.ForeignKey("users.User", on_delete=models.CASCADE)
     # CASCADE는 상위항목을 삭제하면 하위항목도 삭제됨
     room_type = models.ForeignKey("RoomType", on_delete=models.SET_NULL, null=True)
+    #ForeignKey는 인스타그램의 여러 사진이 사진을 업로드한 1명의 게시자를 가리키는 것
     amenities = models.ManyToManyField("Amenity", blank=True)
+    #ManyToManyField는 여러개의 옵션이 선택가능함
     facilities = models.ManyToManyField("Facility", blank=True)
     house_rules = models.ManyToManyField("HouseRule", blank=True)
 
     def __str__(self):
-        return self.name
+        return self.name #class를 자기가 보여주고 싶은 형태의 String으로 보여줌
