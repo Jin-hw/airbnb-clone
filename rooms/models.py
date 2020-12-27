@@ -54,7 +54,7 @@ class Photo(core_models.TimeStampedModel):
 
     caption = models.CharField(max_length=80)
     file = models.ImageField()
-    room = models.ForeignKey("Room", on_delete=models.CASCADE)
+    room = models.ForeignKey("Room", related_name="photos", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.caption
@@ -77,14 +77,25 @@ class Room(core_models.TimeStampedModel):
     check_in = models.TimeField()
     check_out = models.TimeField()
     instant_book = models.BooleanField(default=False)
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    host = models.ForeignKey(
+        "users.User", related_name="rooms", on_delete=models.CASCADE
+    )
     # CASCADE는 상위항목을 삭제하면 하위항목도 삭제됨
-    room_type = models.ForeignKey("RoomType", on_delete=models.SET_NULL, null=True)
-    #ForeignKey는 인스타그램의 여러 사진이 사진을 업로드한 1명의 게시자를 가리키는 것
-    amenities = models.ManyToManyField("Amenity", blank=True)
-    #ManyToManyField는 여러개의 옵션이 선택가능함
-    facilities = models.ManyToManyField("Facility", blank=True)
-    house_rules = models.ManyToManyField("HouseRule", blank=True)
+    room_type = models.ForeignKey(
+        "RoomType", related_name="rooms", on_delete=models.SET_NULL, null=True
+    )
+    # ForeignKey는 인스타그램의 여러 사진이 사진을 업로드한 1명의 게시자를 가리키는 것
+    amenities = models.ManyToManyField("Amenity", related_name="rooms", blank=True)
+    # ManyToManyField는 여러개의 옵션이 선택가능함
+    facilities = models.ManyToManyField("Facility", related_name="rooms", blank=True)
+    house_rules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
 
     def __str__(self):
-        return self.name #class를 자기가 보여주고 싶은 형태의 String으로 보여줌
+        return self.name  # class를 자기가 보여주고 싶은 형태의 String으로 보여줌
+
+    def total_rating(self):
+        all_reviews = self.reviews.all()
+        all_ratings = 0
+        for review in all_reviews:
+            all_ratings += review.rating_average()
+        return all_ratings / len(all_reviews)
