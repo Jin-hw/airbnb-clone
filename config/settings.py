@@ -136,3 +136,7 @@ STATIC_URL = "/static/"
 AUTH_USER_MODEL = "users.User"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+MEDIA_URL = "/media/"
+# media 앞에 /를 붙이면 절대경로가 된다.
+# MEDIA_URL은 MEDIA_ROOT에서 지정해준 경로의 파일을 불러들인다.
