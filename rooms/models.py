@@ -93,9 +93,16 @@ class Room(core_models.TimeStampedModel):
     def __str__(self):
         return self.name  # class를 자기가 보여주고 싶은 형태의 String으로 보여줌
 
+    def save(self, *args, **kwargs):
+        self.city = str.capitalize(self.city)
+        super().save(*args, **kwargs)
+
     def total_rating(self):
         all_reviews = self.reviews.all()
         all_ratings = 0
         for review in all_reviews:
             all_ratings += review.rating_average()
-        return all_ratings / len(all_reviews)
+        if len(all_reviews) > 0:
+            return all_ratings / len(all_reviews)
+        else:
+            return 0
