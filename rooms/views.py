@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator, EmptyPage
+from django.views.generic import ListView
+from django.shortcuts import render
 from . import models
 
 """ #Without assist from Django
@@ -26,7 +26,9 @@ def all_rooms(request):
     # html은 templates 내부의 html 파일 이름과 같아야한다.
 """
 
-
+""" Using Paginator
+from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage
 def all_rooms(request):
     page = request.GET.get("page", 1)
     room_list = models.Room.objects.all()
@@ -37,3 +39,20 @@ def all_rooms(request):
         return render(request, "rooms/home.html", {"page": rooms})
     except EmptyPage:
         return redirect("/")
+"""
+
+
+class HomeView(ListView):
+
+    """ HomeView Definition """
+
+    model = models.Room
+    paginate_by = 10
+    paginate_orphans = 5
+    ordering = "created"
+    context_object_name = "rooms"
+
+
+def room_detail(request, pk):
+
+    return render(request, "rooms/detail.html")
