@@ -1,5 +1,4 @@
-from django.views.generic import ListView
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 from . import models
 
 """ #Without assist from Django
@@ -53,6 +52,17 @@ class HomeView(ListView):
     context_object_name = "rooms"
 
 
+"""#Function Based View
 def room_detail(request, pk):
+    try:
+        room = models.Room.objects.get(pk=pk)
+        return render(request, "rooms/detail.html", {"room": room})
+    except models.Room.DoesNotExist:
+        return redirect(reverse("core:home"))"""
 
-    return render(request, "rooms/detail.html")
+# Class Based View
+class RoomDetail(DetailView):
+
+    """ RoomDetail Definition """
+
+    model = models.Room
