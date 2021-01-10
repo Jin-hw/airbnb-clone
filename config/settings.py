@@ -140,3 +140,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/media/"
 # media 앞에 /를 붙이면 절대경로가 된다.
 # MEDIA_URL은 MEDIA_ROOT에서 지정해준 경로의 파일을 불러들인다.
+
+
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
+EMAIL_FROM = "noreply@sandbox1e5ec685017f4bd7a43ef719f83fc210.mailgun.org"
