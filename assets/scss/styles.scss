@@ -1,14 +1,15 @@
 @tailwind base;
 @tailwind components;
-
 .search-box {
   transition: box-shadow 0.2s linear;
 }
-
 .nav_link {
-  @apply ml-8 border-b-2 border-white hover:border-gray-600 h-full flex items-center;
+  @apply ml-6 border-b-2 border-white h-full flex items-center;
   a {
     @apply py-10 px-5;
+  }
+  &:hover {
+    @apply border-gray-600;
   }
 }
 
@@ -22,4 +23,11 @@ input {
     @apply outline-none;
   }
 }
+
+form{
+  input{
+    @apply mb-3;
+  }
+}
+
 @tailwind utilities;
