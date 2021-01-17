@@ -50,7 +50,7 @@ def complete_verification(request, key):
         user.email_verified = True
         user.email_secret = ""
         user.save()
-        # to do: add sucess message
+        # to do: add succes message
     except models.User.DoesNotExist:
         # to do: add error message
         pass
